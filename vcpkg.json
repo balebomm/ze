@@ -1,0 +1,8 @@
+{
+    "name": "ze",
+    "version": "1.0.1",
+    "maintainers": ["Balebom <balebom@gmail.com>"],
+    "dependencies": [
+        "cppzmq"
+    ]
+}
