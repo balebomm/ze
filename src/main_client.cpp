@@ -1,7 +1,7 @@
-#include <iostream>
+#include "ze/core.hpp"
 
 int main()
 {
-    std::cout << "from client\n";
+    ze::run_rpc_client();
     return 0;
 }

@@ -1,0 +1,15 @@
+function(add_example_executable file_name)
+    message(STATUS "local file name: ${file_name}")
+    string(REGEX MATCH "(.+)/(.+).cpp" match_var "${file_name}")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/example/${CMAKE_MATCH_1})
+    set(executable_name ${CMAKE_MATCH_2})
+    add_executable(${executable_name} ${file_name})
+    target_link_libraries(${executable_name} PRIVATE LibZmq LibNlohmannJson)
+endfunction()
+
+file(GLOB ZE_EXAMPLE_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} */*.cpp)
+list(SORT ZE_EXAMPLE_CXX)
+
+foreach(file_name ${ZE_EXAMPLE_CXX})
+    add_example_executable(${file_name})
+endforeach()

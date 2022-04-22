@@ -11,10 +11,15 @@ endif()
 
 option(ZE_PEDANTIC "Enable extra warning using standard language flags" OFF)
 option(ZE_WERROR   "Halt compiler warnings into errors"                 OFF)
+option(ZE_INSTALL  "Generate install target"                            ${ZE_DEBUG_MODE})
 option(ZE_TEST     "Generate test target module when debug"             ${ZE_DEBUG_MODE})
+option(ZE_EXAMPLE  "Generate example module when debug"                 ${ZE_DEBUG_MODE})
+option(ZE_DOC      "Generate doc module"                                OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(VCPKG_OVERLAY_TRIPLETS "cmake/custom-triplets")
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+set(X_VCPKG_APPLOCAL_DEPS_INSTALL ON)
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "vcpkg toolchain file")
 
 project(ZE CXX)
@@ -27,8 +32,7 @@ include(CheckCXXCompilerFlag)
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     set(ZE_PEDANTIC_FLAGS -pedantic -Wall -pedantic-errors -Werror
         -Wredundant-decls -Wwrite-strings -Wpointer-arith
-        -Wcast-qual -Wformat=2 -Wmissing-include-dirs
-        -Wcast-align
+        -Wcast-qual -Wformat=2 -Wmissing-include-dirs -Wcast-align
         -Wctor-dtor-privacy -Wdisabled-optimization
         -Winvalid-pch -Woverloaded-virtual
         -Wconversion -Wundef
@@ -69,6 +73,9 @@ endif()
 include(GNUInstallDirs)
 set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
+
+#
 include(ProvideDependencies)
 
 file(GLOB ZE_SOURCE_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp)
@@ -102,16 +109,29 @@ target_link_libraries(ze_clientd PRIVATE ze)
 include(ImportConfig)
 configure_file(config.h.in config.h)
 
-install(DIRECTORY src/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cpp" EXCLUDE)
-install(TARGETS ze
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(TARGETS ze_serverd DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(TARGETS ze_clientd DESTINATION ${CMAKE_INSTALL_BINDIR})
+if (ZE_INSTALL)
+    message(STATUS "Generating install")
+    install(DIRECTORY src/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cpp" EXCLUDE)
+    install(TARGETS ze
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    install(TARGETS ze_serverd DESTINATION ${CMAKE_INSTALL_BINDIR})
+    install(TARGETS ze_clientd DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
 
 if (ZE_TEST)
     enable_testing()
     add_subdirectory(test)
+endif()
+
+if (ZE_EXAMPLE)
+    message(STATUS "Generating example module")
+    add_subdirectory(example)
+endif()
+
+if (ZE_DOC)
+    message(STATUS "Generating doc module")
+    add_subdirectory(doc)
 endif()
