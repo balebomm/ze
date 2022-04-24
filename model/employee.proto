@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package proto;
+
+message Person {
+  optional string name = 1;
+  optional int32 id = 2;
+  optional string email = 3;
+}
+
+message AddressBook {
+  repeated Person people = 1;
+}

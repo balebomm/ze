@@ -1,6 +1,25 @@
+# temporary suppress, remove in future
+if (NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
+    set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
+endif()
+
 find_package(cppzmq CONFIG REQUIRED)
 if (TARGET cppzmq)
     add_library(LibZmq ALIAS cppzmq)
+endif()
+
+find_package(gRPC CONFIG REQUIRED)
+if (TARGET gRPC::gpr)
+    add_library(LibGrpcGpr ALIAS gRPC::gpr)
+endif()
+if (TARGET gRPC::upb)
+    add_library(LibGrpcUpb ALIAS gRPC::upb)
+endif()
+if (TARGET gRPC::grpc)
+    add_library(LibGrpcGrpc ALIAS gRPC::grpc)
+endif()
+if (TARGET gRPC::grpc++)
+    add_library(LibGrpcGrpcpp ALIAS gRPC::grpc++)
 endif()
 
 find_package(nlohmann_json CONFIG REQUIRED)

@@ -78,7 +78,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
 #
 include(ProvideDependencies)
 
-file(GLOB ZE_SOURCE_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp)
+file(GLOB ZE_SOURCE_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/*/*.cc)
 list(SORT ZE_SOURCE_CXX)
 
 add_library(ze ${ZE_SOURCE_CXX})
@@ -99,12 +99,13 @@ endif()
 
 # target_link_libraries
 target_link_libraries(ze PUBLIC LibZmq)
+target_link_libraries(ze PUBLIC LibGrpcGpr)
+target_link_libraries(ze PUBLIC LibGrpcUpb)
+target_link_libraries(ze PUBLIC LibGrpcGrpc)
+target_link_libraries(ze PUBLIC LibGrpcGrpcpp)
 
-add_executable(ze_serverd src/main_server.cpp)
-target_link_libraries(ze_serverd PRIVATE ze)
-
-add_executable(ze_clientd src/main_client.cpp)
-target_link_libraries(ze_clientd PRIVATE ze)
+add_executable(ze_d src/main.cpp)
+target_link_libraries(ze_d PRIVATE ze)
 
 include(ImportConfig)
 configure_file(config.h.in config.h)
@@ -117,8 +118,7 @@ if (ZE_INSTALL)
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-    install(TARGETS ze_serverd DESTINATION ${CMAKE_INSTALL_BINDIR})
-    install(TARGETS ze_clientd DESTINATION ${CMAKE_INSTALL_BINDIR})
+    install(TARGETS ze_d DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
 if (ZE_TEST)

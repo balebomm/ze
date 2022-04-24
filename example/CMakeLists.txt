@@ -4,7 +4,7 @@ function(add_example_executable file_name)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/example/${CMAKE_MATCH_1})
     set(executable_name ${CMAKE_MATCH_2})
     add_executable(${executable_name} ${file_name})
-    target_link_libraries(${executable_name} PRIVATE LibZmq LibNlohmannJson)
+    target_link_libraries(${executable_name} PRIVATE ze)
 endfunction()
 
 file(GLOB ZE_EXAMPLE_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} */*.cpp)

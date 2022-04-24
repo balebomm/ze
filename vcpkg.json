@@ -4,6 +4,8 @@
     "maintainers": ["Balebom <balebom@gmail.com>"],
     "dependencies": [
         "cppzmq",
+        "protobuf",
+        "grpc",
         "nlohmann-json"
     ]
 }
