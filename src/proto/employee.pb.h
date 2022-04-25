@@ -46,7 +46,7 @@ struct TableStruct_employee_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -54,6 +54,9 @@ struct TableStruct_employee_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_employee_2eproto;
 namespace proto {
+class Address;
+struct AddressDefaultTypeInternal;
+extern AddressDefaultTypeInternal _Address_default_instance_;
 class AddressBook;
 struct AddressBookDefaultTypeInternal;
 extern AddressBookDefaultTypeInternal _AddressBook_default_instance_;
@@ -62,12 +65,209 @@ struct PersonDefaultTypeInternal;
 extern PersonDefaultTypeInternal _Person_default_instance_;
 }  // namespace proto
 PROTOBUF_NAMESPACE_OPEN
+template<> ::proto::Address* Arena::CreateMaybeMessage<::proto::Address>(Arena*);
 template<> ::proto::AddressBook* Arena::CreateMaybeMessage<::proto::AddressBook>(Arena*);
 template<> ::proto::Person* Arena::CreateMaybeMessage<::proto::Person>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace proto {
 
 // ===================================================================
+
+class Address final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.Address) */ {
+ public:
+  inline Address() : Address(nullptr) {}
+  ~Address() override;
+  explicit constexpr Address(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Address(const Address& from);
+  Address(Address&& from) noexcept
+    : Address() {
+    *this = ::std::move(from);
+  }
+
+  inline Address& operator=(const Address& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Address& operator=(Address&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Address& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Address* internal_default_instance() {
+    return reinterpret_cast<const Address*>(
+               &_Address_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(Address& a, Address& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Address* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Address* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Address* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Address>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const Address& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const Address& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Address* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "proto.Address";
+  }
+  protected:
+  explicit Address(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kProvinceFieldNumber = 1,
+    kDistrictFieldNumber = 2,
+    kWardFieldNumber = 3,
+  };
+  // optional string province = 1;
+  bool has_province() const;
+  private:
+  bool _internal_has_province() const;
+  public:
+  void clear_province();
+  const std::string& province() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_province(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_province();
+  PROTOBUF_NODISCARD std::string* release_province();
+  void set_allocated_province(std::string* province);
+  private:
+  const std::string& _internal_province() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_province(const std::string& value);
+  std::string* _internal_mutable_province();
+  public:
+
+  // optional string district = 2;
+  bool has_district() const;
+  private:
+  bool _internal_has_district() const;
+  public:
+  void clear_district();
+  const std::string& district() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_district(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_district();
+  PROTOBUF_NODISCARD std::string* release_district();
+  void set_allocated_district(std::string* district);
+  private:
+  const std::string& _internal_district() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_district(const std::string& value);
+  std::string* _internal_mutable_district();
+  public:
+
+  // optional string ward = 3;
+  bool has_ward() const;
+  private:
+  bool _internal_has_ward() const;
+  public:
+  void clear_ward();
+  const std::string& ward() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ward(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ward();
+  PROTOBUF_NODISCARD std::string* release_ward();
+  void set_allocated_ward(std::string* ward);
+  private:
+  const std::string& _internal_ward() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ward(const std::string& value);
+  std::string* _internal_mutable_ward();
+  public:
+
+  // @@protoc_insertion_point(class_scope:proto.Address)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr province_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr district_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ward_;
+  friend struct ::TableStruct_employee_2eproto;
+};
+// -------------------------------------------------------------------
 
 class Person final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.Person) */ {
@@ -117,7 +317,7 @@ class Person final :
                &_Person_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(Person& a, Person& b) {
     a.Swap(&b);
@@ -193,6 +393,7 @@ class Person final :
   enum : int {
     kNameFieldNumber = 1,
     kEmailFieldNumber = 3,
+    kAddressFieldNumber = 4,
     kIdFieldNumber = 2,
   };
   // optional string name = 1;
@@ -231,6 +432,24 @@ class Person final :
   std::string* _internal_mutable_email();
   public:
 
+  // optional .proto.Address address = 4;
+  bool has_address() const;
+  private:
+  bool _internal_has_address() const;
+  public:
+  void clear_address();
+  const ::proto::Address& address() const;
+  PROTOBUF_NODISCARD ::proto::Address* release_address();
+  ::proto::Address* mutable_address();
+  void set_allocated_address(::proto::Address* address);
+  private:
+  const ::proto::Address& _internal_address() const;
+  ::proto::Address* _internal_mutable_address();
+  public:
+  void unsafe_arena_set_allocated_address(
+      ::proto::Address* address);
+  ::proto::Address* unsafe_arena_release_address();
+
   // optional int32 id = 2;
   bool has_id() const;
   private:
@@ -255,6 +474,7 @@ class Person final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr email_;
+  ::proto::Address* address_;
   int32_t id_;
   friend struct ::TableStruct_employee_2eproto;
 };
@@ -308,7 +528,7 @@ class AddressBook final :
                &_AddressBook_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(AddressBook& a, AddressBook& b) {
     a.Swap(&b);
@@ -422,6 +642,217 @@ class AddressBook final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// Address
+
+// optional string province = 1;
+inline bool Address::_internal_has_province() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool Address::has_province() const {
+  return _internal_has_province();
+}
+inline void Address::clear_province() {
+  province_.ClearToEmpty();
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& Address::province() const {
+  // @@protoc_insertion_point(field_get:proto.Address.province)
+  return _internal_province();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Address::set_province(ArgT0&& arg0, ArgT... args) {
+ _has_bits_[0] |= 0x00000001u;
+ province_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:proto.Address.province)
+}
+inline std::string* Address::mutable_province() {
+  std::string* _s = _internal_mutable_province();
+  // @@protoc_insertion_point(field_mutable:proto.Address.province)
+  return _s;
+}
+inline const std::string& Address::_internal_province() const {
+  return province_.Get();
+}
+inline void Address::_internal_set_province(const std::string& value) {
+  _has_bits_[0] |= 0x00000001u;
+  province_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* Address::_internal_mutable_province() {
+  _has_bits_[0] |= 0x00000001u;
+  return province_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* Address::release_province() {
+  // @@protoc_insertion_point(field_release:proto.Address.province)
+  if (!_internal_has_province()) {
+    return nullptr;
+  }
+  _has_bits_[0] &= ~0x00000001u;
+  auto* p = province_.ReleaseNonDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (province_.IsDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited())) {
+    province_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), "", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void Address::set_allocated_province(std::string* province) {
+  if (province != nullptr) {
+    _has_bits_[0] |= 0x00000001u;
+  } else {
+    _has_bits_[0] &= ~0x00000001u;
+  }
+  province_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), province,
+      GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (province_.IsDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited())) {
+    province_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), "", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:proto.Address.province)
+}
+
+// optional string district = 2;
+inline bool Address::_internal_has_district() const {
+  bool value = (_has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool Address::has_district() const {
+  return _internal_has_district();
+}
+inline void Address::clear_district() {
+  district_.ClearToEmpty();
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline const std::string& Address::district() const {
+  // @@protoc_insertion_point(field_get:proto.Address.district)
+  return _internal_district();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Address::set_district(ArgT0&& arg0, ArgT... args) {
+ _has_bits_[0] |= 0x00000002u;
+ district_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:proto.Address.district)
+}
+inline std::string* Address::mutable_district() {
+  std::string* _s = _internal_mutable_district();
+  // @@protoc_insertion_point(field_mutable:proto.Address.district)
+  return _s;
+}
+inline const std::string& Address::_internal_district() const {
+  return district_.Get();
+}
+inline void Address::_internal_set_district(const std::string& value) {
+  _has_bits_[0] |= 0x00000002u;
+  district_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* Address::_internal_mutable_district() {
+  _has_bits_[0] |= 0x00000002u;
+  return district_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* Address::release_district() {
+  // @@protoc_insertion_point(field_release:proto.Address.district)
+  if (!_internal_has_district()) {
+    return nullptr;
+  }
+  _has_bits_[0] &= ~0x00000002u;
+  auto* p = district_.ReleaseNonDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (district_.IsDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited())) {
+    district_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), "", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void Address::set_allocated_district(std::string* district) {
+  if (district != nullptr) {
+    _has_bits_[0] |= 0x00000002u;
+  } else {
+    _has_bits_[0] &= ~0x00000002u;
+  }
+  district_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), district,
+      GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (district_.IsDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited())) {
+    district_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), "", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:proto.Address.district)
+}
+
+// optional string ward = 3;
+inline bool Address::_internal_has_ward() const {
+  bool value = (_has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool Address::has_ward() const {
+  return _internal_has_ward();
+}
+inline void Address::clear_ward() {
+  ward_.ClearToEmpty();
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline const std::string& Address::ward() const {
+  // @@protoc_insertion_point(field_get:proto.Address.ward)
+  return _internal_ward();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Address::set_ward(ArgT0&& arg0, ArgT... args) {
+ _has_bits_[0] |= 0x00000004u;
+ ward_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:proto.Address.ward)
+}
+inline std::string* Address::mutable_ward() {
+  std::string* _s = _internal_mutable_ward();
+  // @@protoc_insertion_point(field_mutable:proto.Address.ward)
+  return _s;
+}
+inline const std::string& Address::_internal_ward() const {
+  return ward_.Get();
+}
+inline void Address::_internal_set_ward(const std::string& value) {
+  _has_bits_[0] |= 0x00000004u;
+  ward_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* Address::_internal_mutable_ward() {
+  _has_bits_[0] |= 0x00000004u;
+  return ward_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* Address::release_ward() {
+  // @@protoc_insertion_point(field_release:proto.Address.ward)
+  if (!_internal_has_ward()) {
+    return nullptr;
+  }
+  _has_bits_[0] &= ~0x00000004u;
+  auto* p = ward_.ReleaseNonDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (ward_.IsDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited())) {
+    ward_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), "", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void Address::set_allocated_ward(std::string* ward) {
+  if (ward != nullptr) {
+    _has_bits_[0] |= 0x00000004u;
+  } else {
+    _has_bits_[0] &= ~0x00000004u;
+  }
+  ward_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ward,
+      GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (ward_.IsDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited())) {
+    ward_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), "", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:proto.Address.ward)
+}
+
+// -------------------------------------------------------------------
+
 // Person
 
 // optional string name = 1;
@@ -495,7 +926,7 @@ inline void Person::set_allocated_name(std::string* name) {
 
 // optional int32 id = 2;
 inline bool Person::_internal_has_id() const {
-  bool value = (_has_bits_[0] & 0x00000004u) != 0;
+  bool value = (_has_bits_[0] & 0x00000008u) != 0;
   return value;
 }
 inline bool Person::has_id() const {
@@ -503,7 +934,7 @@ inline bool Person::has_id() const {
 }
 inline void Person::clear_id() {
   id_ = 0;
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline int32_t Person::_internal_id() const {
   return id_;
@@ -513,7 +944,7 @@ inline int32_t Person::id() const {
   return _internal_id();
 }
 inline void Person::_internal_set_id(int32_t value) {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000008u;
   id_ = value;
 }
 inline void Person::set_id(int32_t value) {
@@ -590,6 +1021,96 @@ inline void Person::set_allocated_email(std::string* email) {
   // @@protoc_insertion_point(field_set_allocated:proto.Person.email)
 }
 
+// optional .proto.Address address = 4;
+inline bool Person::_internal_has_address() const {
+  bool value = (_has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || address_ != nullptr);
+  return value;
+}
+inline bool Person::has_address() const {
+  return _internal_has_address();
+}
+inline void Person::clear_address() {
+  if (address_ != nullptr) address_->Clear();
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline const ::proto::Address& Person::_internal_address() const {
+  const ::proto::Address* p = address_;
+  return p != nullptr ? *p : reinterpret_cast<const ::proto::Address&>(
+      ::proto::_Address_default_instance_);
+}
+inline const ::proto::Address& Person::address() const {
+  // @@protoc_insertion_point(field_get:proto.Person.address)
+  return _internal_address();
+}
+inline void Person::unsafe_arena_set_allocated_address(
+    ::proto::Address* address) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(address_);
+  }
+  address_ = address;
+  if (address) {
+    _has_bits_[0] |= 0x00000004u;
+  } else {
+    _has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:proto.Person.address)
+}
+inline ::proto::Address* Person::release_address() {
+  _has_bits_[0] &= ~0x00000004u;
+  ::proto::Address* temp = address_;
+  address_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::proto::Address* Person::unsafe_arena_release_address() {
+  // @@protoc_insertion_point(field_release:proto.Person.address)
+  _has_bits_[0] &= ~0x00000004u;
+  ::proto::Address* temp = address_;
+  address_ = nullptr;
+  return temp;
+}
+inline ::proto::Address* Person::_internal_mutable_address() {
+  _has_bits_[0] |= 0x00000004u;
+  if (address_ == nullptr) {
+    auto* p = CreateMaybeMessage<::proto::Address>(GetArenaForAllocation());
+    address_ = p;
+  }
+  return address_;
+}
+inline ::proto::Address* Person::mutable_address() {
+  ::proto::Address* _msg = _internal_mutable_address();
+  // @@protoc_insertion_point(field_mutable:proto.Person.address)
+  return _msg;
+}
+inline void Person::set_allocated_address(::proto::Address* address) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete address_;
+  }
+  if (address) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<::proto::Address>::GetOwningArena(address);
+    if (message_arena != submessage_arena) {
+      address = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, address, submessage_arena);
+    }
+    _has_bits_[0] |= 0x00000004u;
+  } else {
+    _has_bits_[0] &= ~0x00000004u;
+  }
+  address_ = address;
+  // @@protoc_insertion_point(field_set_allocated:proto.Person.address)
+}
+
 // -------------------------------------------------------------------
 
 // AddressBook
@@ -637,6 +1158,8 @@ AddressBook::people() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 
