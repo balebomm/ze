@@ -15,7 +15,6 @@ VCPKG_BOOSTRAP_ID=$!
 wait $VCPKG_BOOSTRAP_ID
 VCPKG_EXIT_CODE=$?
 VCPKG_EXIT_OK=0
-export LD_LIBRARY_PATH=${WORKSPACE}/build/vcpkg_installed/x64-linux/lib
 if [ $VCPKG_EXIT_CODE -eq $VCPKG_EXIT_OK ]
 then
     cmake -S . -B build/ -DCMAKE_INSTALL_PREFIX=../ze.image -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE="Debug"

@@ -17,9 +17,6 @@ option(ZE_EXAMPLE  "Generate example module when debug"                 ${ZE_DEB
 option(ZE_DOC      "Generate doc module"                                OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set(VCPKG_OVERLAY_TRIPLETS "cmake/custom-triplets")
-set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
-set(X_VCPKG_APPLOCAL_DEPS_INSTALL ON)
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "vcpkg toolchain file")
 
 project(ZE CXX)

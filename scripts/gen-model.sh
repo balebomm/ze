@@ -40,7 +40,6 @@ GenCppModel()
         exit
     fi
 
-    export LD_LIBRARY_PATH=${SHARED_LIB_PATH}
     for proto_file in ${MODEL_FOLDER_PATH}/*
     do
         ${PROTOC_EXE_PATH} -I ${MODEL_FOLDER_PATH} --grpc_out=${TARGET_CPP_FOLDER_PATH} --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN} ${proto_file}
