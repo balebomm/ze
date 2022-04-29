@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package proto;
+
+option cc_enable_arenas = true;
+
+service Greeting {
+    rpc GreetPing (GreetRequest) returns (GreetResponse);
+}
+
+message GreetRequest {
+    string name = 1;
+    string greet_msg = 2;
+}
+
+message GreetResponse {
+    string greet_msg = 1;
+}
