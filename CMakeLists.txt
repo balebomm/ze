@@ -75,47 +75,68 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
 #
 include(ProvideDependencies)
 
-file(GLOB ZE_SOURCE_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/*/*.cc)
-list(SORT ZE_SOURCE_CXX)
+# cxx_proto
+file(GLOB CXX_PROTO_SOURCE RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/cpp/proto/proto/*.cc)
+list(SORT CXX_PROTO_SOURCE)
 
-add_library(ze ${ZE_SOURCE_CXX})
-target_include_directories(ze PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
-target_include_directories(ze PUBLIC "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>")
+add_library(cxx_proto ${CXX_PROTO_SOURCE})
 
-if (ZE_PEDANTIC)
-    target_compile_options(ze PUBLIC ${ZE_PEDANTIC_FLAGS})
-endif()
+target_link_libraries(cxx_proto PUBLIC LibGrpcGpr)
+target_link_libraries(cxx_proto PUBLIC LibGrpcUpb)
+target_link_libraries(cxx_proto PUBLIC LibGrpcGrpc)
+target_link_libraries(cxx_proto PUBLIC LibGrpcGrpcpp)
+# end cxx_proto
 
-if (ZE_WERROR)
-    target_compile_options(ze PUBLIC ${ZE_WERROR_FLAGS})
-endif()
+# cxx_services
+set(CXX_SERVICES "s_auth;s_graph")
 
-if (BUILD_SHARED_LIBS)
-    target_compile_definitions(ze PRIVATE ZE_EXPORT INTERFACE ZE_SHARED)
-endif()
+foreach(cxx_service_name ${CXX_SERVICES})
+    file(GLOB cxx_service_source RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/cpp/${cxx_service_name}/*/*.cpp src/cpp/${cxx_service_name}/*/*/*.cpp)
+    list(SORT cxx_service_source)
+    add_library(${cxx_service_name} ${cxx_service_source})
+    target_include_directories(${cxx_service_name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/${cxx_service_name}>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+    target_include_directories(${cxx_service_name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/proto>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDE_DIR}>")
+    target_include_directories(${cxx_service_name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>")
+    target_link_libraries(${cxx_service_name} PUBLIC cxx_proto)
+    target_link_libraries(${cxx_service_name} PUBLIC LibZmq)
 
-# target_link_libraries
-target_link_libraries(ze PUBLIC LibZmq)
-target_link_libraries(ze PUBLIC LibGrpcGpr)
-target_link_libraries(ze PUBLIC LibGrpcUpb)
-target_link_libraries(ze PUBLIC LibGrpcGrpc)
-target_link_libraries(ze PUBLIC LibGrpcGrpcpp)
-
-add_executable(ze_d src/main.cpp)
-target_link_libraries(ze_d PRIVATE ze)
+    if (ZE_PEDANTIC)
+        target_compile_options(${cxx_service_name} PUBLIC ${ZE_PEDANTIC_FLAGS})
+    endif()
+    if (ZE_WERROR)
+        target_compile_options(${cxx_service_name} PUBLIC ${ZE_WERROR_FLAGS})
+    endif()
+    if (BUILD_SHARED_LIBS)
+        target_compile_definitions(${cxx_service_name} PRIVATE ZE_EXPORT INTERFACE ZE_SHARED)
+    endif()
+    
+    set(cxx_service_bin "${cxx_service_name}_d")
+    add_executable(${cxx_service_bin} ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/${cxx_service_name}/main.cpp)
+    target_link_libraries(${cxx_service_bin} PRIVATE ${cxx_service_name}) 
+endforeach()
+# end cxx_services
 
 include(ImportConfig)
 configure_file(config.h.in config.h)
 
 if (ZE_INSTALL)
     message(STATUS "Generating install")
-    install(DIRECTORY src/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cpp" EXCLUDE)
-    install(TARGETS ze
+    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/proto DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cpp" EXCLUDE)
+    install(TARGETS cxx_proto
             PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-    install(TARGETS ze_d DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+    foreach(cxx_service_name ${CXX_SERVICES})
+        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/${cxx_service_name} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cpp" EXCLUDE)
+        install(TARGETS "${cxx_service_name}_d" DESTINATION ${CMAKE_INSTALL_BIN_DIR})
+        install(TARGETS ${cxx_service_name}
+                PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    endforeach()
 endif()
 
 if (ZE_TEST)

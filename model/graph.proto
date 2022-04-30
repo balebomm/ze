@@ -1,0 +1,30 @@
+syntax = "proto3";
+package proto;
+
+option cc_enable_arenas = true;
+
+service Graph_ {
+    rpc GetRoute(Graph_RouteRequest) returns(Graph_RouteResponse) {}
+}
+
+message Graph_Location {
+    string type = 1;
+    repeated float coordinates = 2;
+}
+
+message Graph_Point {
+    int32 node_id = 1;
+    Graph_Location location = 2;
+}
+
+message Graph_RouteRequest {
+    Graph_Point from = 1;
+    Graph_Point to = 2;
+}
+
+message Graph_RouteResponse {
+    int64 distance = 1;
+    repeated Graph_Location routes = 2;
+    repeated Graph_Location traverse_foward_routes = 3;
+    repeated Graph_Location traverse_backward_routes = 4;
+}

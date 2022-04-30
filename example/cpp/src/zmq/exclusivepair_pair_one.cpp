@@ -10,7 +10,7 @@ using namespace std::chrono_literals;
 
 static zmq::context_t ctx;
 
-auto func = [&](std::string thread_id) {
+auto func = [](std::string thread_id) {
     zmq::socket_t sock(ctx, zmq::socket_type::pair);
     sock.connect("tcp://127.0.0.1:5555");
 

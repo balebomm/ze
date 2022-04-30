@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto;
+
+option cc_enable_arenas = true;
+
+message Auth_Account {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+}

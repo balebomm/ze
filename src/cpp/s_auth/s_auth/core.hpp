@@ -19,11 +19,7 @@
 #endif
 
 namespace ze {
-    void ZE_API run_rpc_server();
-    void ZE_API run_rpc_client();
 
-    void ZE_API run_mq_server();
-    void ZE_API run_mq_client();
 }
 
 #endif // ZE_CORE_HPP
