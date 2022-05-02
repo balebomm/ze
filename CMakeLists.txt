@@ -85,6 +85,7 @@ target_link_libraries(cxx_proto PUBLIC LibGrpcGpr)
 target_link_libraries(cxx_proto PUBLIC LibGrpcUpb)
 target_link_libraries(cxx_proto PUBLIC LibGrpcGrpc)
 target_link_libraries(cxx_proto PUBLIC LibGrpcGrpcpp)
+target_link_libraries(cxx_proto PUBLIC LibGrpcReflection)
 # end cxx_proto
 
 # cxx_services
@@ -117,7 +118,7 @@ endforeach()
 # end cxx_services
 
 include(ImportConfig)
-configure_file(config.h.in config.h)
+configure_file(src/cpp/config.h.in config.h)
 
 if (ZE_INSTALL)
     message(STATUS "Generating install")

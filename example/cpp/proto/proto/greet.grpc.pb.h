@@ -42,11 +42,20 @@ class Greeting final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::GreetResponse>> PrepareAsyncGreetPing(::grpc::ClientContext* context, const ::proto::GreetRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::GreetResponse>>(PrepareAsyncGreetPingRaw(context, request, cq));
     }
+    virtual ::grpc::Status AskName(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::proto::AskNameResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::AskNameResponse>> AsyncAskName(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::AskNameResponse>>(AsyncAskNameRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::AskNameResponse>> PrepareAsyncAskName(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::AskNameResponse>>(PrepareAsyncAskNameRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
       virtual void GreetPing(::grpc::ClientContext* context, const ::proto::GreetRequest* request, ::proto::GreetResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GreetPing(::grpc::ClientContext* context, const ::proto::GreetRequest* request, ::proto::GreetResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void AskName(::grpc::ClientContext* context, const ::proto::AskNameRequest* request, ::proto::AskNameResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void AskName(::grpc::ClientContext* context, const ::proto::AskNameRequest* request, ::proto::AskNameResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -54,6 +63,8 @@ class Greeting final {
    private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::proto::GreetResponse>* AsyncGreetPingRaw(::grpc::ClientContext* context, const ::proto::GreetRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::proto::GreetResponse>* PrepareAsyncGreetPingRaw(::grpc::ClientContext* context, const ::proto::GreetRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::proto::AskNameResponse>* AsyncAskNameRaw(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::proto::AskNameResponse>* PrepareAsyncAskNameRaw(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -65,11 +76,20 @@ class Greeting final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::GreetResponse>> PrepareAsyncGreetPing(::grpc::ClientContext* context, const ::proto::GreetRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::GreetResponse>>(PrepareAsyncGreetPingRaw(context, request, cq));
     }
+    ::grpc::Status AskName(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::proto::AskNameResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::AskNameResponse>> AsyncAskName(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::AskNameResponse>>(AsyncAskNameRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::AskNameResponse>> PrepareAsyncAskName(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::AskNameResponse>>(PrepareAsyncAskNameRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
       void GreetPing(::grpc::ClientContext* context, const ::proto::GreetRequest* request, ::proto::GreetResponse* response, std::function<void(::grpc::Status)>) override;
       void GreetPing(::grpc::ClientContext* context, const ::proto::GreetRequest* request, ::proto::GreetResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void AskName(::grpc::ClientContext* context, const ::proto::AskNameRequest* request, ::proto::AskNameResponse* response, std::function<void(::grpc::Status)>) override;
+      void AskName(::grpc::ClientContext* context, const ::proto::AskNameRequest* request, ::proto::AskNameResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -83,7 +103,10 @@ class Greeting final {
     class async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::proto::GreetResponse>* AsyncGreetPingRaw(::grpc::ClientContext* context, const ::proto::GreetRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::proto::GreetResponse>* PrepareAsyncGreetPingRaw(::grpc::ClientContext* context, const ::proto::GreetRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::proto::AskNameResponse>* AsyncAskNameRaw(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::proto::AskNameResponse>* PrepareAsyncAskNameRaw(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_GreetPing_;
+    const ::grpc::internal::RpcMethod rpcmethod_AskName_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -92,6 +115,7 @@ class Greeting final {
     Service();
     virtual ~Service();
     virtual ::grpc::Status GreetPing(::grpc::ServerContext* context, const ::proto::GreetRequest* request, ::proto::GreetResponse* response);
+    virtual ::grpc::Status AskName(::grpc::ServerContext* context, const ::proto::AskNameRequest* request, ::proto::AskNameResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_GreetPing : public BaseClass {
@@ -113,7 +137,27 @@ class Greeting final {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_GreetPing<Service > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_AskName : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_AskName() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_AskName() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AskName(::grpc::ServerContext* /*context*/, const ::proto::AskNameRequest* /*request*/, ::proto::AskNameResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAskName(::grpc::ServerContext* context, ::proto::AskNameRequest* request, ::grpc::ServerAsyncResponseWriter< ::proto::AskNameResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_GreetPing<WithAsyncMethod_AskName<Service > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_GreetPing : public BaseClass {
    private:
@@ -141,7 +185,34 @@ class Greeting final {
     virtual ::grpc::ServerUnaryReactor* GreetPing(
       ::grpc::CallbackServerContext* /*context*/, const ::proto::GreetRequest* /*request*/, ::proto::GreetResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_GreetPing<Service > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_AskName : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_AskName() {
+      ::grpc::Service::MarkMethodCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::proto::AskNameRequest, ::proto::AskNameResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::proto::AskNameRequest* request, ::proto::AskNameResponse* response) { return this->AskName(context, request, response); }));}
+    void SetMessageAllocatorFor_AskName(
+        ::grpc::MessageAllocator< ::proto::AskNameRequest, ::proto::AskNameResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::proto::AskNameRequest, ::proto::AskNameResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_AskName() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AskName(::grpc::ServerContext* /*context*/, const ::proto::AskNameRequest* /*request*/, ::proto::AskNameResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AskName(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::AskNameRequest* /*request*/, ::proto::AskNameResponse* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_GreetPing<WithCallbackMethod_AskName<Service > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_GreetPing : public BaseClass {
@@ -156,6 +227,23 @@ class Greeting final {
     }
     // disable synchronous version of this method
     ::grpc::Status GreetPing(::grpc::ServerContext* /*context*/, const ::proto::GreetRequest* /*request*/, ::proto::GreetResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_AskName : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_AskName() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_AskName() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AskName(::grpc::ServerContext* /*context*/, const ::proto::AskNameRequest* /*request*/, ::proto::AskNameResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -181,6 +269,26 @@ class Greeting final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_AskName : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_AskName() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_AskName() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AskName(::grpc::ServerContext* /*context*/, const ::proto::AskNameRequest* /*request*/, ::proto::AskNameResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAskName(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_GreetPing : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -200,6 +308,28 @@ class Greeting final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* GreetPing(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_AskName : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_AskName() {
+      ::grpc::Service::MarkMethodRawCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AskName(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_AskName() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AskName(::grpc::ServerContext* /*context*/, const ::proto::AskNameRequest* /*request*/, ::proto::AskNameResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AskName(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -229,9 +359,36 @@ class Greeting final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedGreetPing(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::proto::GreetRequest,::proto::GreetResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_GreetPing<Service > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_AskName : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_AskName() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::AskNameRequest, ::proto::AskNameResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::proto::AskNameRequest, ::proto::AskNameResponse>* streamer) {
+                       return this->StreamedAskName(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_AskName() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status AskName(::grpc::ServerContext* /*context*/, const ::proto::AskNameRequest* /*request*/, ::proto::AskNameResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedAskName(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::proto::AskNameRequest,::proto::AskNameResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_GreetPing<WithStreamedUnaryMethod_AskName<Service > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_GreetPing<Service > StreamedService;
+  typedef WithStreamedUnaryMethod_GreetPing<WithStreamedUnaryMethod_AskName<Service > > StreamedService;
 };
 
 }  // namespace proto

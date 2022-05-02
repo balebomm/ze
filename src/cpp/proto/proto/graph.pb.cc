@@ -58,10 +58,10 @@ struct Graph_RouteRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Graph_RouteRequestDefaultTypeInternal _Graph_RouteRequest_default_instance_;
 constexpr Graph_RouteResponse::Graph_RouteResponse(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : routes_()
+  : shortest_routes_()
   , traverse_foward_routes_()
   , traverse_backward_routes_()
-  , distance_(int64_t{0}){}
+  , total_distance_(int64_t{0}){}
 struct Graph_RouteResponseDefaultTypeInternal {
   constexpr Graph_RouteResponseDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -71,9 +71,37 @@ struct Graph_RouteResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Graph_RouteResponseDefaultTypeInternal _Graph_RouteResponse_default_instance_;
+constexpr Graph_ConfigRequest::Graph_ConfigRequest(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : algorithm_type_(0)
+
+  , total_distance_(false)
+  , shortest_routes_(false)
+  , traverse_forward_routes_(false)
+  , traverse_backward_routes_(false){}
+struct Graph_ConfigRequestDefaultTypeInternal {
+  constexpr Graph_ConfigRequestDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~Graph_ConfigRequestDefaultTypeInternal() {}
+  union {
+    Graph_ConfigRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Graph_ConfigRequestDefaultTypeInternal _Graph_ConfigRequest_default_instance_;
+constexpr Graph_EmptyResponse::Graph_EmptyResponse(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized){}
+struct Graph_EmptyResponseDefaultTypeInternal {
+  constexpr Graph_EmptyResponseDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~Graph_EmptyResponseDefaultTypeInternal() {}
+  union {
+    Graph_EmptyResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Graph_EmptyResponseDefaultTypeInternal _Graph_EmptyResponse_default_instance_;
 }  // namespace proto
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_graph_2eproto[4];
-static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_graph_2eproto = nullptr;
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_graph_2eproto[6];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_graph_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_graph_2eproto = nullptr;
 
 const uint32_t TableStruct_graph_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -107,16 +135,40 @@ const uint32_t TableStruct_graph_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pr
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::proto::Graph_RouteResponse, distance_),
-  PROTOBUF_FIELD_OFFSET(::proto::Graph_RouteResponse, routes_),
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_RouteResponse, total_distance_),
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_RouteResponse, shortest_routes_),
   PROTOBUF_FIELD_OFFSET(::proto::Graph_RouteResponse, traverse_foward_routes_),
   PROTOBUF_FIELD_OFFSET(::proto::Graph_RouteResponse, traverse_backward_routes_),
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_ConfigRequest, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_ConfigRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_ConfigRequest, algorithm_type_),
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_ConfigRequest, total_distance_),
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_ConfigRequest, shortest_routes_),
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_ConfigRequest, traverse_forward_routes_),
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_ConfigRequest, traverse_backward_routes_),
+  ~0u,
+  0,
+  1,
+  2,
+  3,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::proto::Graph_EmptyResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::proto::Graph_Location)},
   { 8, -1, -1, sizeof(::proto::Graph_Point)},
   { 16, -1, -1, sizeof(::proto::Graph_RouteRequest)},
   { 24, -1, -1, sizeof(::proto::Graph_RouteResponse)},
+  { 34, 45, -1, sizeof(::proto::Graph_ConfigRequest)},
+  { 50, -1, -1, sizeof(::proto::Graph_EmptyResponse)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -124,6 +176,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::proto::_Graph_Point_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::proto::_Graph_RouteRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::proto::_Graph_RouteResponse_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::proto::_Graph_ConfigRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::proto::_Graph_EmptyResponse_default_instance_),
 };
 
 const char descriptor_table_protodef_graph_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -132,19 +186,34 @@ const char descriptor_table_protodef_graph_2eproto[] PROTOBUF_SECTION_VARIABLE(p
   "ph_Point\022\017\n\007node_id\030\001 \001(\005\022\'\n\010location\030\002 "
   "\001(\0132\025.proto.Graph_Location\"V\n\022Graph_Rout"
   "eRequest\022 \n\004from\030\001 \001(\0132\022.proto.Graph_Poi"
-  "nt\022\036\n\002to\030\002 \001(\0132\022.proto.Graph_Point\"\276\001\n\023G"
-  "raph_RouteResponse\022\020\n\010distance\030\001 \001(\003\022%\n\006"
-  "routes\030\002 \003(\0132\025.proto.Graph_Location\0225\n\026t"
-  "raverse_foward_routes\030\003 \003(\0132\025.proto.Grap"
-  "h_Location\0227\n\030traverse_backward_routes\030\004"
-  " \003(\0132\025.proto.Graph_Location2M\n\006Graph_\022C\n"
-  "\010GetRoute\022\031.proto.Graph_RouteRequest\032\032.p"
-  "roto.Graph_RouteResponse\"\000B\003\370\001\001b\006proto3"
+  "nt\022\036\n\002to\030\002 \001(\0132\022.proto.Graph_Point\"\315\001\n\023G"
+  "raph_RouteResponse\022\026\n\016total_distance\030\001 \001"
+  "(\003\022.\n\017shortest_routes\030\002 \003(\0132\025.proto.Grap"
+  "h_Location\0225\n\026traverse_foward_routes\030\003 \003"
+  "(\0132\025.proto.Graph_Location\0227\n\030traverse_ba"
+  "ckward_routes\030\004 \003(\0132\025.proto.Graph_Locati"
+  "on\"\274\003\n\023Graph_ConfigRequest\022@\n\016algorithm_"
+  "type\030\001 \001(\0162(.proto.Graph_ConfigRequest.A"
+  "lgorithmType\022\033\n\016total_distance\030\002 \001(\010H\000\210\001"
+  "\001\022\034\n\017shortest_routes\030\003 \001(\010H\001\210\001\001\022$\n\027trave"
+  "rse_forward_routes\030\004 \001(\010H\002\210\001\001\022%\n\030travers"
+  "e_backward_routes\030\005 \001(\010H\003\210\001\001\"{\n\rAlgorith"
+  "mType\022\014\n\010Dijkstra\020\000\022\031\n\025BidirectionalDijk"
+  "stra\020\001\022\t\n\005AStar\020\002\022\026\n\022BidirectionalAStar\020"
+  "\003\022\036\n\032BidirectionalAStarLandmark\020\004B\021\n\017_to"
+  "tal_distanceB\022\n\020_shortest_routesB\032\n\030_tra"
+  "verse_forward_routesB\033\n\031_traverse_backwa"
+  "rd_routes\"\025\n\023Graph_EmptyResponse2\233\001\n\rGra"
+  "ph_Service\022C\n\010GetRoute\022\031.proto.Graph_Rou"
+  "teRequest\032\032.proto.Graph_RouteResponse\"\000\022"
+  "E\n\tSetConfig\022\032.proto.Graph_ConfigRequest"
+  "\032\032.proto.Graph_EmptyResponse\"\000B\003\370\001\001b\006pro"
+  "to3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_graph_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_graph_2eproto = {
-  false, false, 519, descriptor_table_protodef_graph_2eproto, "graph.proto", 
-  &descriptor_table_graph_2eproto_once, nullptr, 0, 4,
+  false, false, 1083, descriptor_table_protodef_graph_2eproto, "graph.proto", 
+  &descriptor_table_graph_2eproto_once, nullptr, 0, 6,
   schemas, file_default_instances, TableStruct_graph_2eproto::offsets,
   file_level_metadata_graph_2eproto, file_level_enum_descriptors_graph_2eproto, file_level_service_descriptors_graph_2eproto,
 };
@@ -155,6 +224,33 @@ PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_graph_2eproto(&descriptor_table_graph_2eproto);
 namespace proto {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Graph_ConfigRequest_AlgorithmType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_graph_2eproto);
+  return file_level_enum_descriptors_graph_2eproto[0];
+}
+bool Graph_ConfigRequest_AlgorithmType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+constexpr Graph_ConfigRequest_AlgorithmType Graph_ConfigRequest::Dijkstra;
+constexpr Graph_ConfigRequest_AlgorithmType Graph_ConfigRequest::BidirectionalDijkstra;
+constexpr Graph_ConfigRequest_AlgorithmType Graph_ConfigRequest::AStar;
+constexpr Graph_ConfigRequest_AlgorithmType Graph_ConfigRequest::BidirectionalAStar;
+constexpr Graph_ConfigRequest_AlgorithmType Graph_ConfigRequest::BidirectionalAStarLandmark;
+constexpr Graph_ConfigRequest_AlgorithmType Graph_ConfigRequest::AlgorithmType_MIN;
+constexpr Graph_ConfigRequest_AlgorithmType Graph_ConfigRequest::AlgorithmType_MAX;
+constexpr int Graph_ConfigRequest::AlgorithmType_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 
 // ===================================================================
 
@@ -872,7 +968,7 @@ class Graph_RouteResponse::_Internal {
 Graph_RouteResponse::Graph_RouteResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
-  routes_(arena),
+  shortest_routes_(arena),
   traverse_foward_routes_(arena),
   traverse_backward_routes_(arena) {
   SharedCtor();
@@ -883,16 +979,16 @@ Graph_RouteResponse::Graph_RouteResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
 }
 Graph_RouteResponse::Graph_RouteResponse(const Graph_RouteResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      routes_(from.routes_),
+      shortest_routes_(from.shortest_routes_),
       traverse_foward_routes_(from.traverse_foward_routes_),
       traverse_backward_routes_(from.traverse_backward_routes_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  distance_ = from.distance_;
+  total_distance_ = from.total_distance_;
   // @@protoc_insertion_point(copy_constructor:proto.Graph_RouteResponse)
 }
 
 inline void Graph_RouteResponse::SharedCtor() {
-distance_ = int64_t{0};
+total_distance_ = int64_t{0};
 }
 
 Graph_RouteResponse::~Graph_RouteResponse() {
@@ -922,10 +1018,10 @@ void Graph_RouteResponse::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  routes_.Clear();
+  shortest_routes_.Clear();
   traverse_foward_routes_.Clear();
   traverse_backward_routes_.Clear();
-  distance_ = int64_t{0};
+  total_distance_ = int64_t{0};
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -935,21 +1031,21 @@ const char* Graph_RouteResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAME
     uint32_t tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 distance = 1;
+      // int64 total_distance = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          distance_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          total_distance_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // repeated .proto.Graph_Location routes = 2;
+      // repeated .proto.Graph_Location shortest_routes = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr -= 1;
           do {
             ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_routes(), ptr);
+            ptr = ctx->ParseMessage(_internal_add_shortest_routes(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
@@ -1011,18 +1107,18 @@ uint8_t* Graph_RouteResponse::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 distance = 1;
-  if (this->_internal_distance() != 0) {
+  // int64 total_distance = 1;
+  if (this->_internal_total_distance() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_distance(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_total_distance(), target);
   }
 
-  // repeated .proto.Graph_Location routes = 2;
+  // repeated .proto.Graph_Location shortest_routes = 2;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->_internal_routes_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->_internal_shortest_routes_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, this->_internal_routes(i), target, stream);
+      InternalWriteMessage(2, this->_internal_shortest_routes(i), target, stream);
   }
 
   // repeated .proto.Graph_Location traverse_foward_routes = 3;
@@ -1057,9 +1153,9 @@ size_t Graph_RouteResponse::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .proto.Graph_Location routes = 2;
-  total_size += 1UL * this->_internal_routes_size();
-  for (const auto& msg : this->routes_) {
+  // repeated .proto.Graph_Location shortest_routes = 2;
+  total_size += 1UL * this->_internal_shortest_routes_size();
+  for (const auto& msg : this->shortest_routes_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
@@ -1078,9 +1174,9 @@ size_t Graph_RouteResponse::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // int64 distance = 1;
-  if (this->_internal_distance() != 0) {
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64SizePlusOne(this->_internal_distance());
+  // int64 total_distance = 1;
+  if (this->_internal_total_distance() != 0) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64SizePlusOne(this->_internal_total_distance());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
@@ -1105,11 +1201,11 @@ void Graph_RouteResponse::MergeFrom(const Graph_RouteResponse& from) {
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  routes_.MergeFrom(from.routes_);
+  shortest_routes_.MergeFrom(from.shortest_routes_);
   traverse_foward_routes_.MergeFrom(from.traverse_foward_routes_);
   traverse_backward_routes_.MergeFrom(from.traverse_backward_routes_);
-  if (from._internal_distance() != 0) {
-    _internal_set_distance(from._internal_distance());
+  if (from._internal_total_distance() != 0) {
+    _internal_set_total_distance(from._internal_total_distance());
   }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1128,16 +1224,369 @@ bool Graph_RouteResponse::IsInitialized() const {
 void Graph_RouteResponse::InternalSwap(Graph_RouteResponse* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  routes_.InternalSwap(&other->routes_);
+  shortest_routes_.InternalSwap(&other->shortest_routes_);
   traverse_foward_routes_.InternalSwap(&other->traverse_foward_routes_);
   traverse_backward_routes_.InternalSwap(&other->traverse_backward_routes_);
-  swap(distance_, other->distance_);
+  swap(total_distance_, other->total_distance_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Graph_RouteResponse::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_graph_2eproto_getter, &descriptor_table_graph_2eproto_once,
       file_level_metadata_graph_2eproto[3]);
+}
+
+// ===================================================================
+
+class Graph_ConfigRequest::_Internal {
+ public:
+  using HasBits = decltype(std::declval<Graph_ConfigRequest>()._has_bits_);
+  static void set_has_total_distance(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_shortest_routes(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_traverse_forward_routes(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static void set_has_traverse_backward_routes(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+};
+
+Graph_ConfigRequest::Graph_ConfigRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor();
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:proto.Graph_ConfigRequest)
+}
+Graph_ConfigRequest::Graph_ConfigRequest(const Graph_ConfigRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _has_bits_(from._has_bits_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&algorithm_type_, &from.algorithm_type_,
+    static_cast<size_t>(reinterpret_cast<char*>(&traverse_backward_routes_) -
+    reinterpret_cast<char*>(&algorithm_type_)) + sizeof(traverse_backward_routes_));
+  // @@protoc_insertion_point(copy_constructor:proto.Graph_ConfigRequest)
+}
+
+inline void Graph_ConfigRequest::SharedCtor() {
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&algorithm_type_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&traverse_backward_routes_) -
+    reinterpret_cast<char*>(&algorithm_type_)) + sizeof(traverse_backward_routes_));
+}
+
+Graph_ConfigRequest::~Graph_ConfigRequest() {
+  // @@protoc_insertion_point(destructor:proto.Graph_ConfigRequest)
+  if (GetArenaForAllocation() != nullptr) return;
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+inline void Graph_ConfigRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void Graph_ConfigRequest::ArenaDtor(void* object) {
+  Graph_ConfigRequest* _this = reinterpret_cast< Graph_ConfigRequest* >(object);
+  (void)_this;
+}
+void Graph_ConfigRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void Graph_ConfigRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void Graph_ConfigRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:proto.Graph_ConfigRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  algorithm_type_ = 0;
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x0000000fu) {
+    ::memset(&total_distance_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&traverse_backward_routes_) -
+        reinterpret_cast<char*>(&total_distance_)) + sizeof(traverse_backward_routes_));
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Graph_ConfigRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .proto.Graph_ConfigRequest.AlgorithmType algorithm_type = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_algorithm_type(static_cast<::proto::Graph_ConfigRequest_AlgorithmType>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool total_distance = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _Internal::set_has_total_distance(&has_bits);
+          total_distance_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool shortest_routes = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _Internal::set_has_shortest_routes(&has_bits);
+          shortest_routes_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool traverse_forward_routes = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _Internal::set_has_traverse_forward_routes(&has_bits);
+          traverse_forward_routes_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool traverse_backward_routes = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _Internal::set_has_traverse_backward_routes(&has_bits);
+          traverse_backward_routes_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* Graph_ConfigRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:proto.Graph_ConfigRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .proto.Graph_ConfigRequest.AlgorithmType algorithm_type = 1;
+  if (this->_internal_algorithm_type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_algorithm_type(), target);
+  }
+
+  // optional bool total_distance = 2;
+  if (_internal_has_total_distance()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(2, this->_internal_total_distance(), target);
+  }
+
+  // optional bool shortest_routes = 3;
+  if (_internal_has_shortest_routes()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(3, this->_internal_shortest_routes(), target);
+  }
+
+  // optional bool traverse_forward_routes = 4;
+  if (_internal_has_traverse_forward_routes()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(4, this->_internal_traverse_forward_routes(), target);
+  }
+
+  // optional bool traverse_backward_routes = 5;
+  if (_internal_has_traverse_backward_routes()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(5, this->_internal_traverse_backward_routes(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:proto.Graph_ConfigRequest)
+  return target;
+}
+
+size_t Graph_ConfigRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:proto.Graph_ConfigRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .proto.Graph_ConfigRequest.AlgorithmType algorithm_type = 1;
+  if (this->_internal_algorithm_type() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_algorithm_type());
+  }
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x0000000fu) {
+    // optional bool total_distance = 2;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 + 1;
+    }
+
+    // optional bool shortest_routes = 3;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 + 1;
+    }
+
+    // optional bool traverse_forward_routes = 4;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 + 1;
+    }
+
+    // optional bool traverse_backward_routes = 5;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += 1 + 1;
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Graph_ConfigRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    Graph_ConfigRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Graph_ConfigRequest::GetClassData() const { return &_class_data_; }
+
+void Graph_ConfigRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+  static_cast<Graph_ConfigRequest *>(to)->MergeFrom(
+      static_cast<const Graph_ConfigRequest &>(from));
+}
+
+
+void Graph_ConfigRequest::MergeFrom(const Graph_ConfigRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:proto.Graph_ConfigRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_algorithm_type() != 0) {
+    _internal_set_algorithm_type(from._internal_algorithm_type());
+  }
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 0x0000000fu) {
+    if (cached_has_bits & 0x00000001u) {
+      total_distance_ = from.total_distance_;
+    }
+    if (cached_has_bits & 0x00000002u) {
+      shortest_routes_ = from.shortest_routes_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      traverse_forward_routes_ = from.traverse_forward_routes_;
+    }
+    if (cached_has_bits & 0x00000008u) {
+      traverse_backward_routes_ = from.traverse_backward_routes_;
+    }
+    _has_bits_[0] |= cached_has_bits;
+  }
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Graph_ConfigRequest::CopyFrom(const Graph_ConfigRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:proto.Graph_ConfigRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Graph_ConfigRequest::IsInitialized() const {
+  return true;
+}
+
+void Graph_ConfigRequest::InternalSwap(Graph_ConfigRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Graph_ConfigRequest, traverse_backward_routes_)
+      + sizeof(Graph_ConfigRequest::traverse_backward_routes_)
+      - PROTOBUF_FIELD_OFFSET(Graph_ConfigRequest, algorithm_type_)>(
+          reinterpret_cast<char*>(&algorithm_type_),
+          reinterpret_cast<char*>(&other->algorithm_type_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Graph_ConfigRequest::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_graph_2eproto_getter, &descriptor_table_graph_2eproto_once,
+      file_level_metadata_graph_2eproto[4]);
+}
+
+// ===================================================================
+
+class Graph_EmptyResponse::_Internal {
+ public:
+};
+
+Graph_EmptyResponse::Graph_EmptyResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:proto.Graph_EmptyResponse)
+}
+Graph_EmptyResponse::Graph_EmptyResponse(const Graph_EmptyResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:proto.Graph_EmptyResponse)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Graph_EmptyResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Graph_EmptyResponse::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata Graph_EmptyResponse::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_graph_2eproto_getter, &descriptor_table_graph_2eproto_once,
+      file_level_metadata_graph_2eproto[5]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -1154,6 +1603,12 @@ template<> PROTOBUF_NOINLINE ::proto::Graph_RouteRequest* Arena::CreateMaybeMess
 }
 template<> PROTOBUF_NOINLINE ::proto::Graph_RouteResponse* Arena::CreateMaybeMessage< ::proto::Graph_RouteResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::proto::Graph_RouteResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::proto::Graph_ConfigRequest* Arena::CreateMaybeMessage< ::proto::Graph_ConfigRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::proto::Graph_ConfigRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::proto::Graph_EmptyResponse* Arena::CreateMaybeMessage< ::proto::Graph_EmptyResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::proto::Graph_EmptyResponse >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

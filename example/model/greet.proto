@@ -5,7 +5,8 @@ package proto;
 option cc_enable_arenas = true;
 
 service Greeting {
-    rpc GreetPing (GreetRequest) returns (GreetResponse);
+    rpc GreetPing (GreetRequest) returns (GreetResponse) {};
+    rpc AskName (AskNameRequest) returns (AskNameResponse) {};
 }
 
 message GreetRequest {
@@ -15,4 +16,12 @@ message GreetRequest {
 
 message GreetResponse {
     string greet_msg = 1;
+}
+
+message AskNameRequest {
+    string ask_num = 1;
+}
+
+message AskNameResponse {
+    string name = 1;
 }

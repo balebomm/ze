@@ -23,6 +23,7 @@ namespace proto {
 
 static const char* Greeting_method_names[] = {
   "/proto.Greeting/GreetPing",
+  "/proto.Greeting/AskName",
 };
 
 std::unique_ptr< Greeting::Stub> Greeting::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -33,6 +34,7 @@ std::unique_ptr< Greeting::Stub> Greeting::NewStub(const std::shared_ptr< ::grpc
 
 Greeting::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
   : channel_(channel), rpcmethod_GreetPing_(Greeting_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AskName_(Greeting_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status Greeting::Stub::GreetPing(::grpc::ClientContext* context, const ::proto::GreetRequest& request, ::proto::GreetResponse* response) {
@@ -58,6 +60,29 @@ void Greeting::Stub::async::GreetPing(::grpc::ClientContext* context, const ::pr
   return result;
 }
 
+::grpc::Status Greeting::Stub::AskName(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::proto::AskNameResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::proto::AskNameRequest, ::proto::AskNameResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AskName_, context, request, response);
+}
+
+void Greeting::Stub::async::AskName(::grpc::ClientContext* context, const ::proto::AskNameRequest* request, ::proto::AskNameResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::proto::AskNameRequest, ::proto::AskNameResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AskName_, context, request, response, std::move(f));
+}
+
+void Greeting::Stub::async::AskName(::grpc::ClientContext* context, const ::proto::AskNameRequest* request, ::proto::AskNameResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AskName_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::proto::AskNameResponse>* Greeting::Stub::PrepareAsyncAskNameRaw(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::proto::AskNameResponse, ::proto::AskNameRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AskName_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::proto::AskNameResponse>* Greeting::Stub::AsyncAskNameRaw(::grpc::ClientContext* context, const ::proto::AskNameRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncAskNameRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 Greeting::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Greeting_method_names[0],
@@ -69,12 +94,29 @@ Greeting::Service::Service() {
              ::proto::GreetResponse* resp) {
                return service->GreetPing(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Greeting_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Greeting::Service, ::proto::AskNameRequest, ::proto::AskNameResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Greeting::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::proto::AskNameRequest* req,
+             ::proto::AskNameResponse* resp) {
+               return service->AskName(ctx, req, resp);
+             }, this)));
 }
 
 Greeting::Service::~Service() {
 }
 
 ::grpc::Status Greeting::Service::GreetPing(::grpc::ServerContext* context, const ::proto::GreetRequest* request, ::proto::GreetResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Greeting::Service::AskName(::grpc::ServerContext* context, const ::proto::AskNameRequest* request, ::proto::AskNameResponse* response) {
   (void) context;
   (void) request;
   (void) response;

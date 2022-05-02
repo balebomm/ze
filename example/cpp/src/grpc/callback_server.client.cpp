@@ -2,6 +2,6 @@
 
 int main()
 {
-    std::cout << "hello from s_auth\n";
+    std::cout << "from callback server\n";
     return 0;
 }

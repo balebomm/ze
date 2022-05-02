@@ -8,6 +8,7 @@ target_link_libraries(example_common_cxx PUBLIC LibGrpcGpr)
 target_link_libraries(example_common_cxx PUBLIC LibGrpcUpb)
 target_link_libraries(example_common_cxx PUBLIC LibGrpcGrpc)
 target_link_libraries(example_common_cxx PUBLIC LibGrpcGrpcpp)
+target_link_libraries(example_common_cxx PUBLIC LibGrpcReflection)
 
 if (ZE_PEDANTIC)
     target_compile_options(example_common_cxx PUBLIC ${ZE_PEDANTIC_FLAGS})

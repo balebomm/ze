@@ -21,5 +21,66 @@
 #include <grpcpp/impl/codegen/sync_stream.h>
 namespace proto {
 
+static const char* Auth_Service_method_names[] = {
+  "/proto.Auth_Service/Login",
+};
+
+std::unique_ptr< Auth_Service::Stub> Auth_Service::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+  (void)options;
+  std::unique_ptr< Auth_Service::Stub> stub(new Auth_Service::Stub(channel, options));
+  return stub;
+}
+
+Auth_Service::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
+  : channel_(channel), rpcmethod_Login_(Auth_Service_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  {}
+
+::grpc::Status Auth_Service::Stub::Login(::grpc::ClientContext* context, const ::proto::Auth_LoginRequest& request, ::proto::Auth_LoginResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::proto::Auth_LoginRequest, ::proto::Auth_LoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Login_, context, request, response);
+}
+
+void Auth_Service::Stub::async::Login(::grpc::ClientContext* context, const ::proto::Auth_LoginRequest* request, ::proto::Auth_LoginResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::proto::Auth_LoginRequest, ::proto::Auth_LoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, std::move(f));
+}
+
+void Auth_Service::Stub::async::Login(::grpc::ClientContext* context, const ::proto::Auth_LoginRequest* request, ::proto::Auth_LoginResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::proto::Auth_LoginResponse>* Auth_Service::Stub::PrepareAsyncLoginRaw(::grpc::ClientContext* context, const ::proto::Auth_LoginRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::proto::Auth_LoginResponse, ::proto::Auth_LoginRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Login_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::proto::Auth_LoginResponse>* Auth_Service::Stub::AsyncLoginRaw(::grpc::ClientContext* context, const ::proto::Auth_LoginRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncLoginRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+Auth_Service::Service::Service() {
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Auth_Service_method_names[0],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Auth_Service::Service, ::proto::Auth_LoginRequest, ::proto::Auth_LoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Auth_Service::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::proto::Auth_LoginRequest* req,
+             ::proto::Auth_LoginResponse* resp) {
+               return service->Login(ctx, req, resp);
+             }, this)));
+}
+
+Auth_Service::Service::~Service() {
+}
+
+::grpc::Status Auth_Service::Service::Login(::grpc::ServerContext* context, const ::proto::Auth_LoginRequest* request, ::proto::Auth_LoginResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+
 }  // namespace proto
 

@@ -3,8 +3,9 @@ package proto;
 
 option cc_enable_arenas = true;
 
-service Graph_ {
+service Graph_Service {
     rpc GetRoute(Graph_RouteRequest) returns(Graph_RouteResponse) {}
+    rpc SetConfig(Graph_ConfigRequest) returns(Graph_EmptyResponse) {}
 }
 
 message Graph_Location {
@@ -23,8 +24,30 @@ message Graph_RouteRequest {
 }
 
 message Graph_RouteResponse {
-    int64 distance = 1;
-    repeated Graph_Location routes = 2;
+    int64 total_distance = 1;
+
+    repeated Graph_Location shortest_routes = 2;
     repeated Graph_Location traverse_foward_routes = 3;
     repeated Graph_Location traverse_backward_routes = 4;
+}
+
+message Graph_ConfigRequest {
+    enum AlgorithmType {
+        Dijkstra = 0;
+        BidirectionalDijkstra = 1;
+        AStar = 2;
+        BidirectionalAStar = 3;
+        BidirectionalAStarLandmark = 4;
+    }
+
+    AlgorithmType algorithm_type  = 1;
+
+    optional bool total_distance = 2;
+    optional bool shortest_routes = 3;
+    optional bool traverse_forward_routes = 4;
+    optional bool traverse_backward_routes = 5;
+}
+
+message Graph_EmptyResponse {
+
 }

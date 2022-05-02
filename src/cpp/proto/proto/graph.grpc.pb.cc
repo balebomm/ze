@@ -21,60 +21,102 @@
 #include <grpcpp/impl/codegen/sync_stream.h>
 namespace proto {
 
-static const char* Graph__method_names[] = {
-  "/proto.Graph_/GetRoute",
+static const char* Graph_Service_method_names[] = {
+  "/proto.Graph_Service/GetRoute",
+  "/proto.Graph_Service/SetConfig",
 };
 
-std::unique_ptr< Graph_::Stub> Graph_::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+std::unique_ptr< Graph_Service::Stub> Graph_Service::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
   (void)options;
-  std::unique_ptr< Graph_::Stub> stub(new Graph_::Stub(channel, options));
+  std::unique_ptr< Graph_Service::Stub> stub(new Graph_Service::Stub(channel, options));
   return stub;
 }
 
-Graph_::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
-  : channel_(channel), rpcmethod_GetRoute_(Graph__method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+Graph_Service::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
+  : channel_(channel), rpcmethod_GetRoute_(Graph_Service_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SetConfig_(Graph_Service_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status Graph_::Stub::GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::proto::Graph_RouteResponse* response) {
+::grpc::Status Graph_Service::Stub::GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::proto::Graph_RouteResponse* response) {
   return ::grpc::internal::BlockingUnaryCall< ::proto::Graph_RouteRequest, ::proto::Graph_RouteResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetRoute_, context, request, response);
 }
 
-void Graph_::Stub::async::GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response, std::function<void(::grpc::Status)> f) {
+void Graph_Service::Stub::async::GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response, std::function<void(::grpc::Status)> f) {
   ::grpc::internal::CallbackUnaryCall< ::proto::Graph_RouteRequest, ::proto::Graph_RouteResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetRoute_, context, request, response, std::move(f));
 }
 
-void Graph_::Stub::async::GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+void Graph_Service::Stub::async::GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetRoute_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::proto::Graph_RouteResponse>* Graph_::Stub::PrepareAsyncGetRouteRaw(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::proto::Graph_RouteResponse>* Graph_Service::Stub::PrepareAsyncGetRouteRaw(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::proto::Graph_RouteResponse, ::proto::Graph_RouteRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetRoute_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::proto::Graph_RouteResponse>* Graph_::Stub::AsyncGetRouteRaw(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::proto::Graph_RouteResponse>* Graph_Service::Stub::AsyncGetRouteRaw(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncGetRouteRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-Graph_::Service::Service() {
+::grpc::Status Graph_Service::Stub::SetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::proto::Graph_EmptyResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::proto::Graph_ConfigRequest, ::proto::Graph_EmptyResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_SetConfig_, context, request, response);
+}
+
+void Graph_Service::Stub::async::SetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest* request, ::proto::Graph_EmptyResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::proto::Graph_ConfigRequest, ::proto::Graph_EmptyResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SetConfig_, context, request, response, std::move(f));
+}
+
+void Graph_Service::Stub::async::SetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest* request, ::proto::Graph_EmptyResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SetConfig_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::proto::Graph_EmptyResponse>* Graph_Service::Stub::PrepareAsyncSetConfigRaw(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::proto::Graph_EmptyResponse, ::proto::Graph_ConfigRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_SetConfig_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::proto::Graph_EmptyResponse>* Graph_Service::Stub::AsyncSetConfigRaw(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncSetConfigRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+Graph_Service::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Graph__method_names[0],
+      Graph_Service_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< Graph_::Service, ::proto::Graph_RouteRequest, ::proto::Graph_RouteResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](Graph_::Service* service,
+      new ::grpc::internal::RpcMethodHandler< Graph_Service::Service, ::proto::Graph_RouteRequest, ::proto::Graph_RouteResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Graph_Service::Service* service,
              ::grpc::ServerContext* ctx,
              const ::proto::Graph_RouteRequest* req,
              ::proto::Graph_RouteResponse* resp) {
                return service->GetRoute(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Graph_Service_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Graph_Service::Service, ::proto::Graph_ConfigRequest, ::proto::Graph_EmptyResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Graph_Service::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::proto::Graph_ConfigRequest* req,
+             ::proto::Graph_EmptyResponse* resp) {
+               return service->SetConfig(ctx, req, resp);
+             }, this)));
 }
 
-Graph_::Service::~Service() {
+Graph_Service::Service::~Service() {
 }
 
-::grpc::Status Graph_::Service::GetRoute(::grpc::ServerContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response) {
+::grpc::Status Graph_Service::Service::GetRoute(::grpc::ServerContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Graph_Service::Service::SetConfig(::grpc::ServerContext* context, const ::proto::Graph_ConfigRequest* request, ::proto::Graph_EmptyResponse* response) {
   (void) context;
   (void) request;
   (void) response;

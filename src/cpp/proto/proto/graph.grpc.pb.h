@@ -27,10 +27,10 @@
 
 namespace proto {
 
-class Graph_ final {
+class Graph_Service final {
  public:
   static constexpr char const* service_full_name() {
-    return "proto.Graph_";
+    return "proto.Graph_Service";
   }
   class StubInterface {
    public:
@@ -42,11 +42,20 @@ class Graph_ final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_RouteResponse>> PrepareAsyncGetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_RouteResponse>>(PrepareAsyncGetRouteRaw(context, request, cq));
     }
+    virtual ::grpc::Status SetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::proto::Graph_EmptyResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_EmptyResponse>> AsyncSetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_EmptyResponse>>(AsyncSetConfigRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_EmptyResponse>> PrepareAsyncSetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_EmptyResponse>>(PrepareAsyncSetConfigRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
       virtual void GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void SetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest* request, ::proto::Graph_EmptyResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest* request, ::proto::Graph_EmptyResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -54,6 +63,8 @@ class Graph_ final {
    private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_RouteResponse>* AsyncGetRouteRaw(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_RouteResponse>* PrepareAsyncGetRouteRaw(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_EmptyResponse>* AsyncSetConfigRaw(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::proto::Graph_EmptyResponse>* PrepareAsyncSetConfigRaw(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -65,11 +76,20 @@ class Graph_ final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::Graph_RouteResponse>> PrepareAsyncGetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::Graph_RouteResponse>>(PrepareAsyncGetRouteRaw(context, request, cq));
     }
+    ::grpc::Status SetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::proto::Graph_EmptyResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::Graph_EmptyResponse>> AsyncSetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::Graph_EmptyResponse>>(AsyncSetConfigRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::Graph_EmptyResponse>> PrepareAsyncSetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::proto::Graph_EmptyResponse>>(PrepareAsyncSetConfigRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
       void GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response, std::function<void(::grpc::Status)>) override;
       void GetRoute(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void SetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest* request, ::proto::Graph_EmptyResponse* response, std::function<void(::grpc::Status)>) override;
+      void SetConfig(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest* request, ::proto::Graph_EmptyResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -83,7 +103,10 @@ class Graph_ final {
     class async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::proto::Graph_RouteResponse>* AsyncGetRouteRaw(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::proto::Graph_RouteResponse>* PrepareAsyncGetRouteRaw(::grpc::ClientContext* context, const ::proto::Graph_RouteRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::proto::Graph_EmptyResponse>* AsyncSetConfigRaw(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::proto::Graph_EmptyResponse>* PrepareAsyncSetConfigRaw(::grpc::ClientContext* context, const ::proto::Graph_ConfigRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_GetRoute_;
+    const ::grpc::internal::RpcMethod rpcmethod_SetConfig_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -92,6 +115,7 @@ class Graph_ final {
     Service();
     virtual ~Service();
     virtual ::grpc::Status GetRoute(::grpc::ServerContext* context, const ::proto::Graph_RouteRequest* request, ::proto::Graph_RouteResponse* response);
+    virtual ::grpc::Status SetConfig(::grpc::ServerContext* context, const ::proto::Graph_ConfigRequest* request, ::proto::Graph_EmptyResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_GetRoute : public BaseClass {
@@ -113,7 +137,27 @@ class Graph_ final {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_GetRoute<Service > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_SetConfig : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SetConfig() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_SetConfig() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetConfig(::grpc::ServerContext* /*context*/, const ::proto::Graph_ConfigRequest* /*request*/, ::proto::Graph_EmptyResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetConfig(::grpc::ServerContext* context, ::proto::Graph_ConfigRequest* request, ::grpc::ServerAsyncResponseWriter< ::proto::Graph_EmptyResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_GetRoute<WithAsyncMethod_SetConfig<Service > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_GetRoute : public BaseClass {
    private:
@@ -141,7 +185,34 @@ class Graph_ final {
     virtual ::grpc::ServerUnaryReactor* GetRoute(
       ::grpc::CallbackServerContext* /*context*/, const ::proto::Graph_RouteRequest* /*request*/, ::proto::Graph_RouteResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_GetRoute<Service > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_SetConfig : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_SetConfig() {
+      ::grpc::Service::MarkMethodCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::proto::Graph_ConfigRequest, ::proto::Graph_EmptyResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::proto::Graph_ConfigRequest* request, ::proto::Graph_EmptyResponse* response) { return this->SetConfig(context, request, response); }));}
+    void SetMessageAllocatorFor_SetConfig(
+        ::grpc::MessageAllocator< ::proto::Graph_ConfigRequest, ::proto::Graph_EmptyResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::proto::Graph_ConfigRequest, ::proto::Graph_EmptyResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_SetConfig() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetConfig(::grpc::ServerContext* /*context*/, const ::proto::Graph_ConfigRequest* /*request*/, ::proto::Graph_EmptyResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SetConfig(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::Graph_ConfigRequest* /*request*/, ::proto::Graph_EmptyResponse* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_GetRoute<WithCallbackMethod_SetConfig<Service > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_GetRoute : public BaseClass {
@@ -156,6 +227,23 @@ class Graph_ final {
     }
     // disable synchronous version of this method
     ::grpc::Status GetRoute(::grpc::ServerContext* /*context*/, const ::proto::Graph_RouteRequest* /*request*/, ::proto::Graph_RouteResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_SetConfig : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SetConfig() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_SetConfig() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetConfig(::grpc::ServerContext* /*context*/, const ::proto::Graph_ConfigRequest* /*request*/, ::proto::Graph_EmptyResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -181,6 +269,26 @@ class Graph_ final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_SetConfig : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SetConfig() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_SetConfig() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetConfig(::grpc::ServerContext* /*context*/, const ::proto::Graph_ConfigRequest* /*request*/, ::proto::Graph_EmptyResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetConfig(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_GetRoute : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -200,6 +308,28 @@ class Graph_ final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* GetRoute(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_SetConfig : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_SetConfig() {
+      ::grpc::Service::MarkMethodRawCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetConfig(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_SetConfig() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetConfig(::grpc::ServerContext* /*context*/, const ::proto::Graph_ConfigRequest* /*request*/, ::proto::Graph_EmptyResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SetConfig(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -229,9 +359,36 @@ class Graph_ final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedGetRoute(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::proto::Graph_RouteRequest,::proto::Graph_RouteResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_GetRoute<Service > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_SetConfig : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SetConfig() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::Graph_ConfigRequest, ::proto::Graph_EmptyResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::proto::Graph_ConfigRequest, ::proto::Graph_EmptyResponse>* streamer) {
+                       return this->StreamedSetConfig(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SetConfig() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SetConfig(::grpc::ServerContext* /*context*/, const ::proto::Graph_ConfigRequest* /*request*/, ::proto::Graph_EmptyResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSetConfig(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::proto::Graph_ConfigRequest,::proto::Graph_EmptyResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_GetRoute<WithStreamedUnaryMethod_SetConfig<Service > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_GetRoute<Service > StreamedService;
+  typedef WithStreamedUnaryMethod_GetRoute<WithStreamedUnaryMethod_SetConfig<Service > > StreamedService;
 };
 
 }  // namespace proto

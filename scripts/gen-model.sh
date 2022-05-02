@@ -11,7 +11,7 @@ MODAL_SRC=${WORKSPACE}/model
 MODAL_EXAMPLE=${WORKSPACE}/example/model
 PROTO_EXAMPLE_CPP=${WORKSPACE}/example/cpp/proto/proto
 PROTO_SRC_CPP=${WORKSPACE}/src/cpp/proto/proto
-PROTO_SRC_JS_WEB=${WORKSPACE}/web/js/proto
+PROTO_SRC_JS_WEB=${WORKSPACE}/web/proto
 
 CAN_GENERATE_MODEL="ON"
 
@@ -60,7 +60,7 @@ GenJsWeb()
     
     for proto_file in ${MODAL_SRC}/*
     do
-        ${PROTOC_EXE_PATH} -I=${MODAL_SRC} ${proto_file} --js_out=import_style=commonjs:${PROTO_SRC_JS_WEB} --grpc-web_out=import_style=commonjs,mode=grpcwebtext:${PROTO_SRC_JS_WEB}
+        ${PROTOC_EXE_PATH} -I=${MODAL_SRC} ${proto_file} --js_out=import_style=commonjs,binary:${PROTO_SRC_JS_WEB} --grpc-web_out=import_style=typescript,mode=grpcweb:${PROTO_SRC_JS_WEB}
     done
 }
 
