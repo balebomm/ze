@@ -75,30 +75,68 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
 #
 include(ProvideDependencies)
 
-# cxx_proto
-file(GLOB CXX_PROTO_SOURCE RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/cpp/proto/proto/*.cc)
-list(SORT CXX_PROTO_SOURCE)
+find_program(PROTOBUF_PROTOC protoc)
+find_program(GRPC_CPP_PLUGIN_EXECUTABLE grpc_cpp_plugin)
 
-add_library(cxx_proto ${CXX_PROTO_SOURCE})
+# proto files
+file(GLOB PROTO_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} model/*.proto)
 
-target_link_libraries(cxx_proto PUBLIC LibGrpcGpr)
-target_link_libraries(cxx_proto PUBLIC LibGrpcUpb)
-target_link_libraries(cxx_proto PUBLIC LibGrpcGrpc)
-target_link_libraries(cxx_proto PUBLIC LibGrpcGrpcpp)
-target_link_libraries(cxx_proto PUBLIC LibGrpcReflection)
-# end cxx_proto
+make_directory(${CMAKE_CURRENT_BINARY_DIR}/proto)
+make_directory(${CMAKE_CURRENT_SOURCE_DIR}/web/proto)
+foreach(proto_src ${PROTO_SRCS})
+    string(REGEX MATCH "model/(.+).proto" match_var ${proto_src})
+    set(cxx_proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.pb.cc")
+    set(cxx_proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.pb.h")
+    set(cxx_grpc_srcs  "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.grpc.pb.cc")
+    set(cxx_grpc_hdrs  "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.grpc.pb.h")
+
+    set(js_web_proto_srcs "${CMAKE_CURRENT_SOURCE_DIR}/web/proto/${CMAKE_MATCH_1}_pb.js")
+    set(js_web_grpc_srcs  "${CMAKE_CURRENT_SOURCE_DIR}/web/proto/${CMAKE_MATCH_1}_grpc_web_pb.js")
+
+    add_custom_command(
+        OUTPUT ${cxx_proto_srcs} ${cxx_proto_hdrs} ${cxx_grpc_srcs} ${cxx_grpc_hdrs} ${js_web_proto_srcs} ${js_web_grpc_srcs}
+        COMMAND ${PROTOBUF_PROTOC}
+        ARGS --grpc_out=${CMAKE_CURRENT_BINARY_DIR}/proto
+            --cpp_out=${CMAKE_CURRENT_BINARY_DIR}/proto 
+            --grpc-web_out=import_style=commonjs,mode=grpcweb:${CMAKE_CURRENT_SOURCE_DIR}/web/proto
+            --js_out=import_style=commonjs,binary:${CMAKE_CURRENT_SOURCE_DIR}/web/proto
+            -I=${CMAKE_CURRENT_SOURCE_DIR}/model
+            --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/${proto_src}
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${proto_src}
+    )
+
+    add_library(proto-${CMAKE_MATCH_1} ${cxx_proto_srcs} ${cxx_grpc_srcs})
+    target_include_directories(proto-${CMAKE_MATCH_1} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/proto>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/proto")
+
+    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcGpr)
+    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcUpb)
+    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcGrpc)
+    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcGrpcpp)
+    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcReflection)
+
+    if (ZE_INSTALL)
+        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/proto DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cc" EXCLUDE)
+        install(TARGETS proto-${CMAKE_MATCH_1}
+                PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    endif()
+endforeach()
 
 # cxx_services
-set(CXX_SERVICES "s_auth;s_graph")
+set(CXX_SERVICES "auth;graph")
 
 foreach(cxx_service_name ${CXX_SERVICES})
-    file(GLOB cxx_service_source RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/cpp/${cxx_service_name}/*/*.cpp src/cpp/${cxx_service_name}/*/*/*.cpp)
+    file(GLOB cxx_service_source RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/${cxx_service_name}/*.cpp src/${cxx_service_name}/*/*.cpp)
     list(SORT cxx_service_source)
     add_library(${cxx_service_name} ${cxx_service_source})
-    target_include_directories(${cxx_service_name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/${cxx_service_name}>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
-    target_include_directories(${cxx_service_name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/proto>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDE_DIR}>")
+    target_include_directories(${cxx_service_name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/${cxx_service_name}>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
     target_include_directories(${cxx_service_name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>")
-    target_link_libraries(${cxx_service_name} PUBLIC cxx_proto)
+    target_link_libraries(${cxx_service_name} PUBLIC proto-auth)
+    target_link_libraries(${cxx_service_name} PUBLIC proto-graph)
+
     target_link_libraries(${cxx_service_name} PUBLIC LibZmq)
 
     if (ZE_PEDANTIC)
@@ -112,25 +150,17 @@ foreach(cxx_service_name ${CXX_SERVICES})
     endif()
     
     set(cxx_service_bin "${cxx_service_name}_d")
-    add_executable(${cxx_service_bin} ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/${cxx_service_name}/main.cpp)
+    add_executable(${cxx_service_bin} ${CMAKE_CURRENT_SOURCE_DIR}/src/${cxx_service_name}/main.cpp)
     target_link_libraries(${cxx_service_bin} PRIVATE ${cxx_service_name}) 
 endforeach()
 # end cxx_services
 
 include(ImportConfig)
-configure_file(src/cpp/config.h.in config.h)
+configure_file(src/config.h.in config.h)
 
 if (ZE_INSTALL)
-    message(STATUS "Generating install")
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/proto DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cpp" EXCLUDE)
-    install(TARGETS cxx_proto
-            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
     foreach(cxx_service_name ${CXX_SERVICES})
-        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/${cxx_service_name} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cpp" EXCLUDE)
+        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/${cxx_service_name} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cpp" EXCLUDE)
         install(TARGETS "${cxx_service_name}_d" DESTINATION ${CMAKE_INSTALL_BIN_DIR})
         install(TARGETS ${cxx_service_name}
                 PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
@@ -141,6 +171,7 @@ if (ZE_INSTALL)
 endif()
 
 if (ZE_TEST)
+    message(STATUS "Generating test module")
     enable_testing()
     add_subdirectory(test)
 endif()

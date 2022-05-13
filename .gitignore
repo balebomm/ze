@@ -2,3 +2,4 @@ build/
 .vscode/
 .vs/
 node_modules/
+web/proto/
