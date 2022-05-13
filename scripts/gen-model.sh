@@ -87,8 +87,6 @@ Help()
 
 Clear()
 {
-    rm -rf ${PROTO_EXAMPLE_CPP}/*
-    rm -rf ${PROTO_SRC_CPP}/*
     rm -rf ${PROTO_SRC_JS_WEB}/*
     echo -e "Cleared all model"
 }
