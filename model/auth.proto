@@ -2,17 +2,19 @@ syntax = "proto3";
 
 package proto;
 
+import "validate/validate.proto";
+
 option cc_enable_arenas = true;
 
 service Auth_Service {
-    rpc Login(Auth_LoginRequest) returns(Auth_LoginResponse) {}
+    rpc Login(LoginRequest) returns(LoginResponse) {}
 }
 
-message Auth_LoginRequest {
-    string username = 1;
+message LoginRequest {
+    string username = 1 [(validate.rules).string.email = true];
     string password = 2;
 }
 
-message Auth_LoginResponse {
+message LoginResponse {
     string session = 1;
 }

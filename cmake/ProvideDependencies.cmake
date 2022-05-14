@@ -8,6 +8,11 @@ if (TARGET cppzmq)
     add_library(LibZmq ALIAS cppzmq)
 endif()
 
+find_package(protobuf CONFIG REQUIRED)
+if (TARGET protobuf::libprotobuf)
+    add_library(LibProtobufProtobuf ALIAS protobuf::libprotobuf)
+endif()
+
 find_package(gRPC CONFIG REQUIRED)
 if (TARGET gRPC::gpr)
     add_library(LibGrpcGpr ALIAS gRPC::gpr)

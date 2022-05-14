@@ -78,6 +78,29 @@ include(ProvideDependencies)
 find_program(PROTOBUF_PROTOC protoc)
 find_program(GRPC_CPP_PLUGIN_EXECUTABLE grpc_cpp_plugin)
 
+# proto validate
+make_directory(${CMAKE_CURRENT_BINARY_DIR}/proto/validate)
+set(cxx_validate_proto "${CMAKE_CURRENT_BINARY_DIR}/proto/validate/validate.pb.cc")
+add_custom_command(
+    OUTPUT ${cxx_validate_proto}
+    COMMAND ${PROTOBUF_PROTOC}
+    ARGS --cpp_out=${CMAKE_CURRENT_BINARY_DIR}/proto/validate
+        -I=${CMAKE_CURRENT_SOURCE_DIR}/model/validate
+        --validate_out=lang=cc:${CMAKE_CURRENT_BINARY_DIR}/proto
+        ${CMAKE_CURRENT_SOURCE_DIR}/model/validate/validate.proto
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/model/validate/validate.proto
+)
+
+add_library(proto-validate ${cxx_validate_proto})
+target_include_directories(proto-validate PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/proto>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/proto")
+target_include_directories(proto-validate PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/model>")
+
+target_link_libraries(proto-validate PUBLIC LibGrpcGpr)
+target_link_libraries(proto-validate PUBLIC LibGrpcUpb)
+target_link_libraries(proto-validate PUBLIC LibGrpcGrpc)
+target_link_libraries(proto-validate PUBLIC LibGrpcGrpcpp)
+target_link_libraries(proto-validate PUBLIC LibGrpcReflection)
+
 # proto files
 file(GLOB PROTO_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} model/*.proto)
 
@@ -85,16 +108,12 @@ make_directory(${CMAKE_CURRENT_BINARY_DIR}/proto)
 make_directory(${CMAKE_CURRENT_SOURCE_DIR}/web/proto)
 foreach(proto_src ${PROTO_SRCS})
     string(REGEX MATCH "model/(.+).proto" match_var ${proto_src})
-    set(cxx_proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.pb.cc")
-    set(cxx_proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.pb.h")
-    set(cxx_grpc_srcs  "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.grpc.pb.cc")
-    set(cxx_grpc_hdrs  "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.grpc.pb.h")
-
-    set(js_web_proto_srcs "${CMAKE_CURRENT_SOURCE_DIR}/web/proto/${CMAKE_MATCH_1}_pb.js")
-    set(js_web_grpc_srcs  "${CMAKE_CURRENT_SOURCE_DIR}/web/proto/${CMAKE_MATCH_1}_grpc_web_pb.js")
+    set(cxx_proto_srcs     "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.pb.cc")
+    set(cxx_grpc_srcs      "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.grpc.pb.cc")
+    set(cxx_validate_srcs  "${CMAKE_CURRENT_BINARY_DIR}/proto/${CMAKE_MATCH_1}.pb.validate.cc")
 
     add_custom_command(
-        OUTPUT ${cxx_proto_srcs} ${cxx_proto_hdrs} ${cxx_grpc_srcs} ${cxx_grpc_hdrs} ${js_web_proto_srcs} ${js_web_grpc_srcs}
+        OUTPUT ${cxx_proto_srcs} ${cxx_grpc_srcs} ${cxx_validate_srcs}
         COMMAND ${PROTOBUF_PROTOC}
         ARGS --grpc_out=${CMAKE_CURRENT_BINARY_DIR}/proto
             --cpp_out=${CMAKE_CURRENT_BINARY_DIR}/proto 
@@ -102,21 +121,15 @@ foreach(proto_src ${PROTO_SRCS})
             --js_out=import_style=commonjs,binary:${CMAKE_CURRENT_SOURCE_DIR}/web/proto
             -I=${CMAKE_CURRENT_SOURCE_DIR}/model
             --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN_EXECUTABLE}
+            --validate_out=lang=cc:${CMAKE_CURRENT_BINARY_DIR}/proto
             ${CMAKE_CURRENT_SOURCE_DIR}/${proto_src}
         DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${proto_src}
     )
 
-    add_library(proto-${CMAKE_MATCH_1} ${cxx_proto_srcs} ${cxx_grpc_srcs})
-    target_include_directories(proto-${CMAKE_MATCH_1} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/proto>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/proto")
-
-    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcGpr)
-    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcUpb)
-    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcGrpc)
-    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcGrpcpp)
-    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC LibGrpcReflection)
+    add_library(proto-${CMAKE_MATCH_1} ${cxx_proto_srcs} ${cxx_grpc_srcs} ${cxx_validate_srcs})
+    target_link_libraries(proto-${CMAKE_MATCH_1} PUBLIC proto-validate)
 
     if (ZE_INSTALL)
-        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/proto DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cc" EXCLUDE)
         install(TARGETS proto-${CMAKE_MATCH_1}
                 PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
                 LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -159,6 +172,14 @@ include(ImportConfig)
 configure_file(src/config.h.in config.h)
 
 if (ZE_INSTALL)
+
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/proto DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cc" EXCLUDE)
+    install(TARGETS proto-validate
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
     foreach(cxx_service_name ${CXX_SERVICES})
         install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/${cxx_service_name} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} PATTERN "*.cpp" EXCLUDE)
         install(TARGETS "${cxx_service_name}_d" DESTINATION ${CMAKE_INSTALL_BIN_DIR})

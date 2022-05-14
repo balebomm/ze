@@ -1,37 +1,40 @@
 syntax = "proto3";
 package proto;
 
+import "validate/validate.proto";
+
 option cc_enable_arenas = true;
 
 service Graph_Service {
-    rpc GetRoute(Graph_RouteRequest) returns(Graph_RouteResponse) {}
-    rpc SetConfig(Graph_ConfigRequest) returns(Graph_EmptyResponse) {}
+    rpc GetRoute(RouteRequest) returns(RouteResponse) {}
+    rpc SetConfig(ConfigRequest) returns(ConfigResponse) {}
 }
 
-message Graph_Location {
+message Location {
     string type = 1;
-    repeated float coordinates = 2;
+    double lat = 2 [(validate.rules).double = {gte: -90, lte: 90}];
+    double lng = 3 [(validate.rules).double = {gte: -180, lte: 180}];
 }
 
-message Graph_Point {
+message Point {
     int32 node_id = 1;
-    Graph_Location location = 2;
+    Location location = 2;
 }
 
-message Graph_RouteRequest {
-    Graph_Point from = 1;
-    Graph_Point to = 2;
+message RouteRequest {
+    Point from = 1;
+    Point to = 2;
 }
 
-message Graph_RouteResponse {
-    int64 total_distance = 1;
+message RouteResponse {
+    uint64 total_distance = 1;
 
-    repeated Graph_Location shortest_routes = 2;
-    repeated Graph_Location traverse_foward_routes = 3;
-    repeated Graph_Location traverse_backward_routes = 4;
+    repeated Location shortest_routes = 2;
+    repeated Location traverse_foward_routes = 3;
+    repeated Location traverse_backward_routes = 4;
 }
 
-message Graph_ConfigRequest {
+message ConfigRequest {
     enum AlgorithmType {
         Dijkstra = 0;
         BidirectionalDijkstra = 1;
@@ -48,6 +51,6 @@ message Graph_ConfigRequest {
     optional bool traverse_backward_routes = 5;
 }
 
-message Graph_EmptyResponse {
-
+message ConfigResponse {
+    string msg = 1;
 }

@@ -7,10 +7,10 @@
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    proto::Graph_Location proto_location;
+    proto::Location proto_location{};
     proto_location.set_type<std::string>("balebom");
-    proto_location.add_coordinates(2);
-
+    proto_location.set_lat(124);
+    proto_location.set_lng(121);
     std::string jmsg;
     google::protobuf::util::MessageToJsonString(proto_location, &jmsg);
 
