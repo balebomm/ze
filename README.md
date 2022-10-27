@@ -6,11 +6,7 @@ POST: client -> server
 PUT,PATCH: update data
 
 DELETE: delete data
-## FORMAT CODE:
-```
-npm i prettier lint-staged husky --save-dev
 
-```
 # INSTALL MONGOOSE:
 Mongoose is a MongoDB object modeling tool designed to work in an asynchronous environment. Mongoose supports both promises and callbacks.
 ```
@@ -51,4 +47,3 @@ app.use(
 )
   
 ```
-ok
