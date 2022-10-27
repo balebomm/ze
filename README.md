@@ -1,4 +1,6 @@
 ## NOTE:
+A C++ Project with CMake
+
 GET: server -> client
 
 POST: client -> server
