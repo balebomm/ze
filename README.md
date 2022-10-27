@@ -1,3 +1,22 @@
+## NOTE:
+GET: server -> client
+
+POST: client -> server
+
+PUT,PATCH: update data
+
+DELETE: delete data
+## FORMAT CODE:
+```
+npm i prettier lint-staged husky --save-dev
+
+```
+# INSTALL MONGOOSE:
+Mongoose is a MongoDB object modeling tool designed to work in an asynchronous environment. Mongoose supports both promises and callbacks.
+```
+npm install mongoose
+```
+
 # MIDDLEWARE
 Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
 
@@ -11,9 +30,6 @@ Execute any code.
 Make changes to the request and the response objects.
 End the request-response cycle.
 Call the next middleware function in the stack.
-
-If the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
-
 ```
 app.use( 
   function(req, res, next)
